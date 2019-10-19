@@ -1,5 +1,5 @@
 from django.db.models import Q
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls.base import reverse_lazy, reverse
 from django.utils.http import urlencode
 from django.views.generic import ListView, DetailView, DeleteView, UpdateView, CreateView, View
@@ -76,6 +76,26 @@ class ChoiceUpdate(UpdateView):
         return reverse('poll', kwargs={'pk': self.object.poll.pk})
 
 
+class AnswerForPollCreateView(View):
+    @staticmethod
+    def get(request, **kwargs):
+        poll = get_object_or_404(Poll, pk=kwargs['pk'])
+        choices = poll.choice.all()
+        context = {
+            'poll': poll,
+            'choices': choices
+        }
+        return render(request, 'poll/add_answer.html', context)
+
+    @staticmethod
+    def post(request, **kwargs):
+        choice = request.POST['value']
+        value = get_object_or_404(Choice, pk=choice)
+        poll = get_object_or_404(Poll, pk=kwargs['pk'])
+        Answer.objects.create(choice=value, poll=poll)
+        return redirect('poll', poll.pk)
+
+
 class DeleteChoice(DeleteView):
     template_name = 'choice/delete_choice.html'
     model = Choice
@@ -87,20 +107,3 @@ class AnswerView(ListView):
     context_object_name = 'poll'
     model = Poll
     template_name = 'poll/answer.html'
-
-
-class AnswerForPollCreateView(CreateView):
-    template_name = 'poll/add_answer.html'
-    form_class = AnswerForPollForm
-    model = Poll
-
-    def form_valid(self, form):
-        self.poll_pk = self.get_poll()
-        self.poll_pk.choice.create(**form.cleaned_data)
-        return redirect('poll', pk=self.poll_pk.pk)
-
-    def get_poll(self, **kwargs):
-        poll_pk = self.kwargs.get('pk')
-        return get_object_or_404(Poll, pk=poll_pk)
-
-
