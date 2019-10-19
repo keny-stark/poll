@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 
-{% block title %}Update tracker{% endblock %}
+{% block title %}Update Poll{% endblock %}
 {% block menu %}
-    <li><a href="{% url 'tracker' object.pk %}" class="action-btn">View</a></li>
+    <li><a href="{% url 'tracker' poll.pk %}" class="action-btn">View</a></li>
 {% endblock %}
 {% block content %}
-    <h1>Update tracker</h1>
-    <form method="POST" action="{% url "update_tracker" object.pk %}" class="for_form">
-        {% include 'partial/tracker_form.html' with button_text="edit" %}
+    <h1>Update poll</h1>
+    <form method="POST" action="{% url "update_poll" object.pk %}" class="for_form">
+        {% include 'partial/poll_form.html' with button_text="edit" %}
     </form>
 {% endblock %}

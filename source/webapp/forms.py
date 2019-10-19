@@ -7,7 +7,7 @@ class PollForm(forms.ModelForm):
         model = Poll
 
         widgets = {
-            'summary': forms.TextInput,
+            'text': forms.TextInput,
         }
         exclude = ['created_at']
 
@@ -15,5 +15,8 @@ class PollForm(forms.ModelForm):
 class ChoiceForm(forms.ModelForm):
     class Meta:
         model = Choice
+        widgets = {
+            'text': forms.TextInput,
+        }
         fields = ['text', 'poll']
 

@@ -1,21 +1,18 @@
 {% extends 'base.html' %}
 {% block menu %}
-    <li><a href="{% url 'tracker_add' %}" class="action-btn">+ Add tracker +</a></li>
-    <li><a href="{% url 'projects' %}" class="action-btn">Projects</a></li>
-    <li><a href="{% url 'status_views' %}" class="action-btn">Status</a></li>
-    <li><a href="{% url 'type_views' %}" class="action-btn">Type</a></li>
+    <li><a href="{% url 'poll_add' %}" class="action-btn">+ Add POll +</a></li>
+
 {% endblock %}
 
 {% block content %}
-    {% include 'partial/search.html' %}
         <div class="home_div">
-            {% for trackers in tracker %}
+            {% for polls in poll %}
                 <div class="boss_div">
-                    <h4>{{ trackers.summary }}</h4>
+                    <h4>{{ polls.text }}</h4>
                     <div class="for_button">
-                        <a href="{% url 'tracker' trackers.pk %}" class="btn btn1">More >>></a>
-                        <a href="{% url 'update_tracker' pk=trackers.pk %}" class="btn btn3">Edit</a>
-                        <a href="{% url 'delete_tracker' pk=trackers.pk %}" class="btn btn2">Delete</a>
+                        <a href="{% url 'poll' polls.pk %}" class="btn btn1">More >>></a>
+                        <a href="{% url 'update_poll' pk=polls.pk %}" class="btn btn3">Edit</a>
+                        <a href="{% url 'delete_poll' pk=polls.pk %}" class="btn btn2">Delete</a>
                     </div>
                 </div>
             {% endfor %}
