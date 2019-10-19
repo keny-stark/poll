@@ -25,4 +25,6 @@ urlpatterns = [
     path('poll/<int:pk>/edit/', PollUpdate.as_view(), name='update_poll'),
     path('poll/<int:pk>/delete/', DeletePoll.as_view(), name='delete_poll'),
     path('poll/<int:pk>/add-choice/', ChoiceForPollCreateView.as_view(), name='create_new_choice'),
+    path('tracker/choice/delete/<int:pk>/', DeleteChoice.as_view(), name='delete_choice'),
+    path('tracker/choice/update/<int:pk>/', ChoiceUpdate.as_view(), name='update_choice'),
 ]
