@@ -23,6 +23,6 @@ class ChoiceForPollForm(forms.ModelForm):
 class AnswerForPollForm(forms.ModelForm):
     class Meta:
         model = Answer
-        exclude = ['choice']
+        exclude = ['poll']
 
 

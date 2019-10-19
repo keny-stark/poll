@@ -92,11 +92,12 @@ class AnswerView(ListView):
 class AnswerForPollCreateView(CreateView):
     template_name = 'poll/add_answer.html'
     form_class = AnswerForPollForm
+    model = Poll
 
     def form_valid(self, form):
         self.poll_pk = self.get_poll()
         self.poll_pk.choice.create(**form.cleaned_data)
-        return redirect('answer', pk=self.poll_pk.pk)
+        return redirect('poll', pk=self.poll_pk.pk)
 
     def get_poll(self, **kwargs):
         poll_pk = self.kwargs.get('pk')
