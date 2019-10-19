@@ -1,5 +1,5 @@
 from django import forms
-from webapp.models import Poll, Choice
+from webapp.models import Poll, Choice, Answer
 
 
 class PollForm(forms.ModelForm):
@@ -17,6 +17,12 @@ class ChoiceForm(forms.ModelForm):
 class ChoiceForPollForm(forms.ModelForm):
     class Meta:
         model = Choice
-        exclude = ['text']
+        exclude = ['poll']
+
+
+class AnswerForPollForm(forms.ModelForm):
+    class Meta:
+        model = Answer
+        exclude = ['choice']
 
 

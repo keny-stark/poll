@@ -7,7 +7,7 @@
             <div class="button js-button-campaign action-btn"><span>Delete</span></div>
         </main>
     </li>
-     <li><a href="#add_choice" class="action-btn">Add choice for poll</a></li>
+     <li><a href="{% url 'create_new_choice' poll.pk %}" class="action-btn">Add choice for poll</a></li>
     <div class="overlay js-overlay-campaign">
         <div class="popup js-popup-campaign">
             <form method="POST" action="{% url 'delete_poll' poll.pk %}">
@@ -39,10 +39,4 @@
     {% if is_paginated %}
         {% include 'partial/pagination.html' %}
     {% endif %}
-    <div class="form-project_tracker">
-    <h4>add new choice</h4>
-        <form action="{% url 'create_new_choice' poll.pk %}" method="POST" id="add_choice">
-            {% include 'partial/poll_form.html' with button_text='Add' %}
-        </form>
-    </div>
 {% endblock %}

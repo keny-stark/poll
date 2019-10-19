@@ -1,10 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block title %}List{% endblock %}
+{% block menu %}
+{% endblock %}
+{% block content %}
 
-</body>
-</html>
+     <div class="home_div">
+            {% for polls in poll %}
+                <div class="boss_div">
+                    <h4>{{ polls.text }}</h4>
+                   <a href="{% url 'answer_add' polls.pk %}" class="btn btn1">to answer</a>
+                </div>
+            {% endfor %}
+        </div>
+
+{% endblock %}

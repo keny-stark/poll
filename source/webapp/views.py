@@ -2,9 +2,9 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect
 from django.urls.base import reverse_lazy, reverse
 from django.utils.http import urlencode
-from django.views.generic import ListView, DetailView, DeleteView, UpdateView, CreateView
-from webapp.forms import PollForm, ChoiceForm, ChoiceForPollForm
-from webapp.models import Poll, Choice
+from django.views.generic import ListView, DetailView, DeleteView, UpdateView, CreateView, View
+from webapp.forms import PollForm, ChoiceForm, ChoiceForPollForm, AnswerForPollForm
+from webapp.models import Poll, Choice, Answer
 
 
 class IndexView(ListView):
@@ -32,7 +32,7 @@ class PollCreateView(CreateView):
     form_class = PollForm
 
     def get_success_url(self):
-        return reverse('poll', kwargs={'pk': self.object.poll.pk})
+        return reverse('poll', kwargs={'pk': self.object.pk})
 
 
 class PollUpdate(UpdateView):
@@ -56,15 +56,12 @@ class ChoiceForPollCreateView(CreateView):
     template_name = 'choice/add_choice.html'
     form_class = ChoiceForPollForm
 
-    def dispatch(self, request, *args, **kwargs):
-        self.poll = self.get_poll()
-        return super().dispatch(request, *args, **kwargs)
-
     def form_valid(self, form):
-        self.poll.choice.create(**form.cleaned_data)
-        return redirect('article_view', pk=self.poll.pk)
+        self.poll_pk = self.get_poll()
+        self.poll_pk.choice.create(**form.cleaned_data)
+        return redirect('poll', pk=self.poll_pk.pk)
 
-    def get_poll(self):
+    def get_poll(self, **kwargs):
         poll_pk = self.kwargs.get('pk')
         return get_object_or_404(Poll, pk=poll_pk)
 
@@ -84,4 +81,25 @@ class DeleteChoice(DeleteView):
     model = Choice
     context_object_name = 'choice'
     success_url = reverse_lazy('index')
+
+
+class AnswerView(ListView):
+    context_object_name = 'poll'
+    model = Poll
+    template_name = 'poll/answer.html'
+
+
+class AnswerForPollCreateView(CreateView):
+    template_name = 'poll/add_answer.html'
+    form_class = AnswerForPollForm
+
+    def form_valid(self, form):
+        self.poll_pk = self.get_poll()
+        self.poll_pk.choice.create(**form.cleaned_data)
+        return redirect('answer', pk=self.poll_pk.pk)
+
+    def get_poll(self, **kwargs):
+        poll_pk = self.kwargs.get('pk')
+        return get_object_or_404(Poll, pk=poll_pk)
+
 
