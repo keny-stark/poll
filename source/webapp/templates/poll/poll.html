@@ -21,8 +21,26 @@
 {% endblock %}
 {% block content %}
     <h3>text: {{ poll.text }}</h3>
-{#    <h4>Project: {{ tracker.project_id }}</h4>#}
-{#    <p class="for_text">Description: {{ tracker.description }}</p>#}
-{#    <p>time of created: {{ tracker.created_at }}</p>#}
-{#    <p>status: <b>{{ tracker.status }}</b>, type: <b>{{ tracker.type }}</b></p>#}
+    <hr>
+    <h3>Choice</h3>
+        {% for tracker in poll.choice.all %}
+
+            <div class="tracker_for_project">
+                <h4>{{ tracker.text }}</h4>
+                <p class="comment-links">
+{#                    <a href="{% url 'update_tracker' tracker.pk %}" class="btn btn4">Edit</a>#}
+{#                    <a href="{% url 'delete_tracker' tracker.pk %}" class="btn btn1">Delete</a>#}
+                </p>
+            </div>
+        {% empty %}
+            <p>No tracker yet.</p>
+        {% endfor %}
+    {% if is_paginated %}
+        {% include 'partial/pagination.html' %}
+    {% endif %}
+    <div class="form-project_tracker">
+        <form action="{% url 'create_new_choice' project.pk %}" method="POST" id="add_comment">
+            {% include 'partial/poll_form.html' with button_text='Add' %}
+        </form>
+    </div>
 {% endblock %}

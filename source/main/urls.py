@@ -20,8 +20,9 @@ from webapp.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', IndexView.as_view(), name='index'),
-    path('tracker/<int:pk>/', PollView.as_view(), name='poll'),
-    path('tracker/add/', PollCreateView.as_view(), name='poll_add'),
-    path('tracker/<int:pk>/edit/', PollUpdate.as_view(), name='update_poll'),
-    path('tracker/<int:pk>/delete/', DeletePoll.as_view(), name='delete_poll'),
+    path('poll/<int:pk>/', PollView.as_view(), name='poll'),
+    path('poll/add/', PollCreateView.as_view(), name='poll_add'),
+    path('poll/<int:pk>/edit/', PollUpdate.as_view(), name='update_poll'),
+    path('poll/<int:pk>/delete/', DeletePoll.as_view(), name='delete_poll'),
+    path('poll/<int:pk>/add-choice/', ChoiceForPollCreateView.as_view(), name='create_new_choice'),
 ]
